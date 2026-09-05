@@ -150,6 +150,56 @@ pip install -e .[dev]
 pytest
 ```
 
+## Handoff / 交接说明
+
+> 面向后续维护者（人或 AI 会话）的现状速览。最后更新：2026-09-05。
+
+### 命名沿革（重要，避免混淆）
+
+- **仓库名** `SpatialUtils`（github.com/GIStudio/SpatialUtils），**包名** `spatialharness`——两者有意不同。
+- 原包名 `spatialutils` 被 PyPI 以"与既有 `spatial-utils` 过于相似"为由拒绝，2026-09-05 全局重命名：导入包、CLI 命令、entry-points 组（`spatialharness.plugins`）、本地插件目录（`~/.spatialharness/plugins/`）。
+- `SpatialAccessibility` 与 `StreetSolarTrack` 是**独立发布的第三方风格库**，本库只做适配器包装，不改动它们。
+
+### 当前状态（v0.1.0，已发布 PyPI）
+
+- 核心（纯标准库零依赖）：PluginManager（entry points + 本地目录双发现、启停）、Plugin 协议、duck-typing 数据契约、`run_pipeline` 链式调用。
+- 内置适配器：`spatial_accessibility`（SpatialAccessibility 0.0.13）、`street_solar`（StreetSolarTrack 0.0.10），后端懒导入，缺失时 `run()` 才报错并给 pip 提示。
+- 三个包均已在 PyPI：spatialharness 0.1.0 / SpatialAccessibility 0.0.13 / StreetSolarTrack 0.0.10。
+- 测试：24 个，`pytest` 全过（Windows / Python 3.12 验证）。
+
+### 代码地图
+
+| 路径 | 职责 |
+|---|---|
+| `src/spatialharness/core/plugin.py` | Plugin 基类与协议、PluginInfo、`plugin_from_function` |
+| `src/spatialharness/core/manager.py` | 发现 / 注册 / 启停 / `run` / `run_pipeline` |
+| `src/spatialharness/core/contracts.py` | 契约类型判定（duck-typing）与校验 |
+| `src/spatialharness/core/errors.py` | 异常体系 |
+| `src/spatialharness/adapters/` | 两个内置适配器，汇总于 `BUILTIN_ADAPTERS` |
+| `src/spatialharness/cli.py` | CLI：list / show / run / enable / disable |
+| `plugins/hello_demo.py` | 本地即插即用示例插件 |
+| `tests/` | 24 个测试（manager / contracts / cli / adapters） |
+
+### 如何扩展
+
+- **新内置适配器**：在 `adapters/` 加 Plugin 子类并注册进 `BUILTIN_ADAPTERS`（参考 `street_solar.py`）。
+- **第三方插件**：独立 Python 包，在自己的 `pyproject.toml` 声明 `[project.entry-points."spatialharness.plugins"]`。
+- **实验性插件**：`*.py` 丢进 `~/.spatialharness/plugins/` 或项目 `plugins/` 目录。
+
+### 发布流程
+
+1. 同步版本号：`pyproject.toml` 的 `version` 与 `VERSION` 文件。
+2. `python -m build` 产出 `dist/`，`python -m twine check dist/*` 校验。
+3. `python -m twine upload dist/*`（凭据由维护者自行配置，勿写入仓库）。
+4. git 打 tag 并推送。
+
+### 已知边界 / 下一步
+
+- 尚无 CI（建议：push 时跑 pytest + build 冒烟，参考 GIStudioNote 的 Actions 配置）。
+- 契约只校验数据形态，不做数值范围 / CRS 一致性校验。
+- `hello` 插件仅作演示，发布正式版前可移入 examples。
+- 远期：CitySense 分析流程固化为 perception 类插件；接入 ZenSVI 街景下载能力。
+
 ## License
 
 MIT © GIStudio / Shiqi Wang
