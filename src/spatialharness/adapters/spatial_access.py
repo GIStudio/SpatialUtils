@@ -24,7 +24,7 @@ class SpatialAccessibilityPlugin(Plugin):
         "summary": TABLE,  # 模型参数与统计摘要
     }
 
-    _PIP_HINT = "pip install SpatialAccessibility  (或 pip install spatialutils[access])"
+    _PIP_HINT = "pip install SpatialAccessibility  (或 pip install spatialharness[access])"
 
     def run(self, data: Any = None, *, method: str = "gravity", **params: Any) -> Dict[str, Any]:
         try:

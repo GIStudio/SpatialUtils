@@ -5,7 +5,7 @@ ships as plugins (built-in adapters wrap our existing libraries).
 
 Quick start::
 
-    from spatialutils import PluginManager
+    from spatialharness import PluginManager
 
     mgr = PluginManager()
     print(mgr.list_plugins())

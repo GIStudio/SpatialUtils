@@ -40,7 +40,7 @@ class Plugin:
 
     Class attributes double as the plugin manifest; override them in
     subclasses. ``input_contract`` / ``output_contract`` map payload keys to
-    contract type names understood by :mod:`spatialutils.core.contracts`
+    contract type names understood by :mod:`spatialharness.core.contracts`
     (``table``, ``geodataframe``, ``series``, ``path``, ``any``).
     """
 

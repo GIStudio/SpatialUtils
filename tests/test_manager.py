@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from spatialutils.core import (
+from spatialharness.core import (
     DuplicatePluginError,
     Plugin,
     PluginManager,
@@ -89,7 +89,7 @@ def test_pipeline_chaining(mgr):
 def test_local_dir_discovery(tmp_path, mgr):
     plugin_file = tmp_path / "greet_plugin.py"
     plugin_file.write_text(
-        "from spatialutils.core.plugin import Plugin\n"
+        "from spatialharness.core.plugin import Plugin\n"
         "class GreetPlugin(Plugin):\n"
         "    name = 'greet'\n"
         "    def run(self, data=None, **params):\n"

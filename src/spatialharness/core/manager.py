@@ -3,16 +3,16 @@
 Two discovery mechanisms:
 
 1. **Entry points** – third-party packages declare plugins under the
-   ``spatialutils.plugins`` group in their own ``pyproject.toml``::
+   ``spatialharness.plugins`` group in their own ``pyproject.toml``::
 
-       [project.entry-points."spatialutils.plugins"]
+       [project.entry-points."spatialharness.plugins"]
        my-plugin = "my_package.plugin:MyPlugin"
 
-   The entry point may resolve to a :class:`~spatialutils.core.plugin.Plugin`
+   The entry point may resolve to a :class:`~spatialharness.core.plugin.Plugin`
    subclass, an instance, or a zero-argument factory returning either.
 
 2. **Local plugin directories** – any ``*.py`` file dropped into
-   ``~/.spatialutils/plugins/`` or ``./plugins/`` is imported and every
+   ``~/.spatialharness/plugins/`` or ``./plugins/`` is imported and every
    ``Plugin`` subclass found in it is registered. Ideal for experimental code.
 """
 
@@ -28,10 +28,10 @@ from .contracts import enforce_payload, validate_payload
 from .errors import DuplicatePluginError, PluginLoadError, PluginNotFoundError
 from .plugin import Plugin, PluginInfo
 
-LOGGER = logging.getLogger("spatialutils")
+LOGGER = logging.getLogger("spatialharness")
 
-ENTRY_POINT_GROUP = "spatialutils.plugins"
-USER_PLUGIN_DIR = Path.home() / ".spatialutils" / "plugins"
+ENTRY_POINT_GROUP = "spatialharness.plugins"
+USER_PLUGIN_DIR = Path.home() / ".spatialharness" / "plugins"
 PROJECT_PLUGIN_DIR = Path.cwd() / "plugins"
 
 PluginSource = Union[Plugin, type]
@@ -151,7 +151,7 @@ class PluginManager:
             for pyfile in sorted(directory.glob("*.py")):
                 if pyfile.name.startswith("_"):
                     continue
-                modname = f"spatialutils_local_{pyfile.stem}"
+                modname = f"spatialharness_local_{pyfile.stem}"
                 if modname in seen_modules:
                     continue
                 seen_modules.add(modname)

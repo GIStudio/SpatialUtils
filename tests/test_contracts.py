@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from spatialutils.core import ContractError, enforce_payload, validate_payload
-from spatialutils.core.contracts import describe_payload, type_name
+from spatialharness.core import ContractError, enforce_payload, validate_payload
+from spatialharness.core.contracts import describe_payload, type_name
 
 
 class FakeDataFrame(dict):

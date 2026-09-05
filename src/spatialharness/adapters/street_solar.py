@@ -21,7 +21,7 @@ class StreetSolarTrackPlugin(Plugin):
     input_contract = {"folder": PATH}  # 街景图像文件夹
     output_contract = {"metadata": TABLE}  # 每张图的元数据表
 
-    _PIP_HINT = "pip install StreetSolarTrack  (或 pip install spatialutils[street])"
+    _PIP_HINT = "pip install StreetSolarTrack  (或 pip install spatialharness[street])"
 
     def run(self, data: Any = None, *, folder: Any = None, report: bool = False, **params: Any) -> Dict[str, Any]:
         folder = folder if folder is not None else data

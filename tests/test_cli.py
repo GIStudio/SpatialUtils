@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-from spatialutils.cli import main
+from spatialharness.cli import main
 
 
 def test_cli_list(capsys):

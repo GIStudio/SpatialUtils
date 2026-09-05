@@ -3,10 +3,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/spatialutils"]
+packages = ["src/spatialharness"]
 
 [project]
-name = "spatialutils"
+name = "spatialharness"
 version = "0.1.0"
 authors = [
   { name = "Shiqi Wang", email = "qtec@outlook.com" },
@@ -30,7 +30,7 @@ all = ["SpatialAccessibility", "StreetSolarTrack"]
 dev = ["pytest"]
 
 [project.scripts]
-spatialutils = "spatialutils.cli:main"
+spatialharness = "spatialharness.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/GIStudio/SpatialUtils"

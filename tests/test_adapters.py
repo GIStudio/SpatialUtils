@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from spatialutils.core import PluginLoadError, PluginManager
+from spatialharness.core import PluginLoadError, PluginManager
 
 
 @pytest.fixture()

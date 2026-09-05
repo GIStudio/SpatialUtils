@@ -2,10 +2,10 @@
 
 Examples::
 
-    spatialutils list
-    spatialutils list --all
-    spatialutils show street_solar
-    spatialutils run street_solar --param folder=./tests/data/photos
+    spatialharness list
+    spatialharness list --all
+    spatialharness show street_solar
+    spatialharness run street_solar --param folder=./tests/data/photos
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from .core import PluginManager
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="spatialutils",
+        prog="spatialharness",
         description="插件式 GIS / 城市科学工具库 (core = 插件管理 + 数据契约)",
     )
     sub = parser.add_subparsers(dest="command", required=True)

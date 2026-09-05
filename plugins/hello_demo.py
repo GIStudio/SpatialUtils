@@ -2,12 +2,12 @@
 
 用法::
 
-    spatialutils list                      # 应出现 hello
-    spatialutils run hello --param who=GIS
+    spatialharness list                      # 应出现 hello
+    spatialharness run hello --param who=GIS
 """
 
-from spatialutils.core.contracts import ANY
-from spatialutils.core.plugin import Plugin
+from spatialharness.core.contracts import ANY
+from spatialharness.core.plugin import Plugin
 
 
 class HelloPlugin(Plugin):
