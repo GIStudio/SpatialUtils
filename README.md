@@ -64,6 +64,24 @@ FeatureCollection 输入，GeoDataFrame 结果自动输出为 GeoJSON——与
 `spatial-harness`）的数据格式原生对齐，AI 可编排两端："Python 算可达性 → Web
 端分级设色出图"。
 
+## AI 辅助编辑（活地图 map_* 工具）
+
+```bash
+spatialharness serve                 # 桥（编辑中转队列）
+spatialharness mcp                   # MCP 服务器，提供 map_* 编辑工具与计算插件
+```
+
+在 Web 工作台「分析面板 → Python 分析」勾选「AI 编辑」后，AI 客户端可通过
+`map_get_project / map_add_features / map_update_features / map_delete_features /
+map_add_layer / map_remove_layer / map_set_layer_style / map_fit_layer / map_set_view`
+直接编辑**运行中的活地图**：坐标走 EPSG:4326 校验，每次编辑进入用户历史栈
+（Ctrl+Z 可撤销），浏览器端开关是唯一闸门。
+
+另有 `write_project` 工具：headless 生成 `project.webgis.json` 工程文件
+（无需浏览器），Web 端「打开数据文件夹」即可载入。
+
+设计文档见 Web 仓库 `docs/ai-editing.md`，Agent 使用指引见其 `SKILL.md`。
+
 ## 本地 HTTP 桥（供 Web 工作台调用）
 
 ```bash
