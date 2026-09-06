@@ -50,6 +50,36 @@ mgr.enable("street_solar")    # 启用
 mgr.source_of("street_solar") # 来源: builtin / entrypoint:xxx / local:path
 ```
 
+## AI 互操作（MCP）
+
+```bash
+spatialharness mcp
+```
+
+以 **MCP stdio 服务器**运行：全部已启用插件（含输入/输出契约）自动生成工具清单，
+AI 客户端（Claude Code / Codex / DeepSeek Harness 等）可直接调用。零依赖实现
+（newline-delimited JSON-RPC）。数据支持 list[记录] 与 GeoJSON
+FeatureCollection 输入，GeoDataFrame 结果自动输出为 GeoJSON——与
+[SpatialHarness Web 工作台](https://github.com/GIStudio/SpatialHarness)（npm
+`spatial-harness`）的数据格式原生对齐，AI 可编排两端："Python 算可达性 → Web
+端分级设色出图"。
+
+## 本地 HTTP 桥（供 Web 工作台调用）
+
+```bash
+spatialharness serve                 # 默认 http://127.0.0.1:8765
+```
+
+| 端点 | 说明 |
+|---|---|
+| `GET /health` | 存活检查（含版本） |
+| `GET /plugins` | 插件 manifest 列表（含输入/输出契约） |
+| `POST /run/<plugin>` | `{"data": <JSON>, "params": {...}}` → 插件结果 |
+
+响应带 CORS 头，`localhost:5173` 开发服与线上页均可直连；数据转换规则同上。
+姊妹项目 [SpatialHarness Web 工作台](https://github.com/GIStudio/SpatialHarness)
+的"Python 分析"面板即通过此桥调用本包插件。
+
 ## 架构
 
 ```
@@ -114,7 +144,7 @@ mgr.register(plugin)
 my-tool = "my_package.plugin:MyPlugin"
 ```
 
-`pip install` 后即被所有 SpatialUtils 用户自动发现。
+`pip install` 后即被所有 SpatialHarness 用户自动发现。
 
 ### 本地即插即用
 
@@ -144,8 +174,8 @@ mgr.run_pipeline([
 ## 开发
 
 ```bash
-git clone https://github.com/GIStudio/SpatialUtils.git
-cd SpatialUtils
+git clone https://github.com/GIStudio/SpatialHarness.git
+cd SpatialHarness
 pip install -e .[dev]
 pytest
 ```
@@ -156,7 +186,7 @@ pytest
 
 ### 命名沿革（重要，避免混淆）
 
-- **仓库名** `SpatialUtils`（github.com/GIStudio/SpatialUtils），**包名** `spatialharness`——两者有意不同。
+- **仓库名** `SpatialHarness`（github.com/GIStudio/SpatialHarness），**包名** `spatialharness`——两者有意不同。
 - 原包名 `spatialutils` 被 PyPI 以"与既有 `spatial-utils` 过于相似"为由拒绝，2026-09-05 全局重命名：导入包、CLI 命令、entry-points 组（`spatialharness.plugins`）、本地插件目录（`~/.spatialharness/plugins/`）。
 - `SpatialAccessibility` 与 `StreetSolarTrack` 是**独立发布的第三方风格库**，本库只做适配器包装，不改动它们。
 

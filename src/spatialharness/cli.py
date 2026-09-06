@@ -42,6 +42,11 @@ def _build_parser() -> argparse.ArgumentParser:
     p_disable = sub.add_parser("disable", help="禁用插件（仅本次进程内生效）")
     p_disable.add_argument("name")
 
+    sub.add_parser("mcp", help="以 MCP stdio 服务器运行，把插件暴露为 AI 可调用工具")
+    p_serve = sub.add_parser("serve", help="启动本地 HTTP 桥，供 Web 工作台/AI 客户端调用插件")
+    p_serve.add_argument("--host", default="127.0.0.1")
+    p_serve.add_argument("--port", type=int, default=8765)
+
     return parser
 
 
@@ -106,6 +111,17 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.command == "disable":
         mgr.disable(args.name)
         print(f"disabled: {args.name}")
+        return 0
+
+    if args.command == "mcp":
+        from .mcp_server import serve_stdio
+
+        return serve_stdio(mgr)
+
+    if args.command == "serve":
+        from .serve import serve as serve_bridge
+
+        serve_bridge(args.host, args.port, mgr)
         return 0
 
     return 1

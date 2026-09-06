@@ -19,4 +19,4 @@ class HelloPlugin(Plugin):
     output_contract = {"message": ANY}
 
     def run(self, data=None, *, who: str = "world", **params):
-        return {"message": f"Hello, {who}! (SpatialUtils 插件系统工作正常)"}
+        return {"message": f"Hello, {who}! (SpatialHarness 插件系统工作正常)"}
